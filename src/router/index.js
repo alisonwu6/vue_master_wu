@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue';
-import ThreadShow from '@/components/ThreadShow.vue';
+import Home from '@/pages/PageHome';
+import ThreadShow from '@/pages/PageThreadShow';
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld
+    name: 'Home',
+    component: Home
   },
   {
     path: '/thread/:id',  // using router-link with params object can change path without other settings.
