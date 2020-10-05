@@ -11,7 +11,7 @@ const routes = [
     component: HelloWorld
   },
   {
-    path: '/thread/:id',
+    path: '/thread/:id',  // using router-link with params object can change path without other settings.
     name: 'ThreadShow',
     component: ThreadShow,
     props: true

@@ -2,7 +2,14 @@
     <div class="thread">
         <div>
             <p>
-                <a href="#">{{thread.title}}</a>
+                <!-- A TAG RELOAD PAGE WHENEVER CLICK -->
+                <!-- <a :href="`/thread/${thread['.key']}`">{{thread.title}}</a> -->
+
+                <!-- ROUTER-LINK IS NOT GOING TO RELOAD -->
+                <!-- <router-link :to="`/thread/${thread['.key']}`">{{thread.title}}</router-link> -->
+
+                <!-- pass obkect can change path without having refactor our application -->
+                <router-link :to="{name: 'ThreadShow', params: {id: thread['.key']}}">{{thread.title}}</router-link>
             </p>
             <p class="text-faded text-xsmall">
                 By <a href="#">{{user.name}}</a>, {{thread.publishedAt}}.
