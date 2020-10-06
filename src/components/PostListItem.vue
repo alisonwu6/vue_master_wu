@@ -21,16 +21,12 @@
 
 <script>
     import sourceData from '@/data'
-    import AppDate from '@/components/AppDate.vue';
     export default {
         props: {
             post: {
                 required: true,
                 type: Object
             }
-        },
-        components: {
-            AppDate,
         },
         computed: {
             user() {
