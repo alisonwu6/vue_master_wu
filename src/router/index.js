@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/pages/PageHome';
 import ThreadShow from '@/pages/PageThreadShow';
+import Category from '@/pages/PageCategory';
 import Forum from '@/pages/PageForum';
 import NotFound from '@/pages/PageNotFound';
 Vue.use(VueRouter)
@@ -16,6 +17,12 @@ const routes = [
     path: '/thread/:id',  // using router-link with params object can change path without other settings.
     name: 'ThreadShow',
     component: ThreadShow,
+    props: true
+  }, 
+  {
+    path: '/category/:id',
+    name: 'Category',
+    component: Category,
     props: true
   }, 
   {
