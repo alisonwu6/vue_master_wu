@@ -37,10 +37,9 @@
 
                 <li class="navbar-user">
                     <a href="#">
-                        <img class="avatar-small"
-                            src="https://api.adorable.io/avatars/400/abott@adorable.png" alt="">
+                        <img class="avatar-small" :src="user.avatar" alt="">
                         <span>
-                            Alison Wu
+                            {{user.name}}
                             <img class="icon-profile" src="../assets/img/arrow-profile.svg" alt="">
                         </span>
                     </a>
@@ -61,7 +60,14 @@
 </template>
 
 <script>
-    export default {}
+    import {mapGetters} from 'vuex'
+    export default {
+        computed: {
+        ...mapGetters({
+            'user': 'authUser'
+        })
+        }
+    }
 </script>
 
 <style scoped>
