@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="addPost">
+    <form @submit.prevent="save">
         <div class="form-group">
             <textarea name="" id="" cols="30" rows="10" class="form-input" v-model="text"></textarea>
         </div>
@@ -23,17 +23,16 @@
             }
         },
         methods: {
-            addPost() {
-                const postId = 'greatPost' + Math.random()
+            save() {
                 const post = {
                     text: this.text,
                     publishedAt: Math.floor(Date.now() / 1000),
                     threadId: this.threadId,
-                    userId: 'jUjmgCurRRdzayqbRMO7aTG9X1G2',
-                    '.key': postId
+                    userId: 'jUjmgCurRRdzayqbRMO7aTG9X1G2'
                 }
                 this.text = ''
-                this.$emit('save', {post})
+                // this.$emit('save', {post})
+                this.$store.dispatch('createPost', post)
             }
         }
     }
