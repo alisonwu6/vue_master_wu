@@ -15,15 +15,16 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        createPost(context, post) {  // {commit, state}
+        createPost({commit, state}, post) {  // {commit, state}
             // console.log('context',context)
             const postId = 'greatPost' + Math.random()
             post['.key'] = postId
-            post.userId = context.state.authId
+            post.userId = state.authId
             post.publishedAt = Math.floor(Date.now() / 1000)
-            context.commit('setPost', {post, postId})
-            context.commit('appendPostToThread', {threadId: post.threadId, postId})
-            context.commit('appendPostToUser', {userId: post.userId, postId})
+            commit('setPost', {post, postId})
+            commit('appendPostToThread', {threadId: post.threadId, postId})
+            commit('appendPostToUser', {userId: post.userId, postId})
+            return Promise.resolve(state.posts[postId])
         },
 
         createThread ({state, commit, dispatch}, {text, title, forumId}) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
                 commit('appendThreadToUser', {userId, threadId})
     
                 dispatch('createPost', {text, threadId})
+                    .then(post => {
+                        commit('setThread', {threadId, thread: {...thread, firstPostId: post['.key']}})
+                    })
                 resolve(state.threads[threadId])
             })
         },
