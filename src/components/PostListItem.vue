@@ -19,7 +19,7 @@
                     title="Make a change"><i class="fa fa-pencil"></i></a>
             </template>
             <div v-else>
-                <PostEditor :post="post" @save="editing = false" />
+                <PostEditor :post="post" @save="editing = false" @cancel="editing = false" />
             </div>
         </div>
         <div class="post-date text-faded">
