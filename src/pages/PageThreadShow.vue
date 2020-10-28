@@ -55,7 +55,7 @@
             },
         },
         methods: {
-            ...mapActions('fetchThread','fetchUser','fetchPosts')
+            ...mapActions(['fetchThread','fetchUser','fetchPosts'])
         },
         created () {
             // fetch thread
