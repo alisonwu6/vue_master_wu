@@ -102,25 +102,44 @@ export default new Vuex.Store({
             commit('setUser', {userId: user['.key'], user})
         },
 
+        fetchCategory ({dispatch}, {id}) {
+            return dispatch('fetchItem', {resource: 'categories', id, emoji: '🏷'})
+        },
+    
+        fetchForum ({dispatch}, {id}) {
+            return dispatch('fetchItem', {resource: 'forums', id, emoji: '🌧'})
+        },
+
         fetchThread ({dispatch}, {id}) {
             return dispatch('fetchItem',{resource: 'threads', id, emoji: '📄'})
+        },
+
+        fetchPost ({dispatch}, {id}) {
+            return dispatch('fetchItem', {resource: 'posts', id, emoji: '💬'})
         },
 
         fetchUser ({dispatch}, {id}) {
             return dispatch('fetchItem',{resource: 'users', id, emoji: '🙋‍'})
         },
 
-        fetchPost ({dispatch}, {id}) {
-            return dispatch('fetchItem',{resource: 'posts', id, emoji: '💬‍'})
+        fetchCategories (context, {ids}) {
+            return context.dispatch('fetchItems', {resource: 'categories', ids, emoji: '🏷'})
         },
 
         fetchForums ({dispatch}, {ids}) {
             return dispatch('fetchItems', {resource: 'forums', emoji: '🌧', ids})
         },
 
-        fetchPosts ({dispatch}, {ids}) {
-            console.log('fetchPosts');
-            return dispatch('fetchItems', {resource: 'posts', emoji: '💬‍💬‍', ids})
+        fetchThreads (context, {ids}) {
+            return context.dispatch('fetchItems', {resource: 'threads', ids, emoji: '🌧'})
+        },
+
+        fetchPosts (context, {ids}) {
+            return context.dispatch('fetchItems', {resource: 'posts', ids, emoji: '💬'})
+        },
+
+        fetchUsers (context, {ids}) {
+            return context.dispatch('fetchItems', {resource: 'users', ids, emoji: '🙋'})
         },
 
         fetchAllCategories ({state, commit}) {
@@ -148,6 +167,9 @@ export default new Vuex.Store({
         },
 
         fetchItems ({dispatch}, {ids, resource, emoji}) {
+            console.log('ids - b', ids);
+            ids = Array.isArray(ids) ? ids : Object.keys(ids)
+            console.log('ids - a', ids);
             return Promise.all(ids.map(id => dispatch('fetchItem', {id, resource, emoji})))
         }
     },
