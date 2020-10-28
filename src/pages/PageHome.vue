@@ -17,20 +17,20 @@
                 return Object.values(this.$store.state.categories);
             }
         },
-        beforeCreate () {
-            console.log('# beforeCreate', this.categories)
-        },
-        created () {
-            console.log('# created', this.categories)
-        },
-        beforeMount () {
-            console.log('# beforeMount', this.categories,  this.$el) 
-        },
-        mounted () {
-            console.log('# mounted', this.categories, this.$el)  // dom appears
-        },
-        beforeDestroy () {
-            console.log('# beforeDestroy -- turn off listeners', this.categories); 
-        }
+        // beforeCreate () {
+        //     console.log('# beforeCreate', this.categories)
+        // },
+        // created () {
+        //     console.log('# created', this.categories)
+        // },
+        // beforeMount () {
+        //     console.log('# beforeMount', this.categories,  this.$el) 
+        // },
+        // mounted () {
+        //     console.log('# mounted', this.categories, this.$el)  // dom appears
+        // },
+        // beforeDestroy () {
+        //     console.log('# beforeDestroy -- turn off listeners', this.categories); 
+        // }
     }
 </script>
