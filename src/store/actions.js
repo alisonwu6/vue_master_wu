@@ -22,6 +22,21 @@ export default {
             })
     },
 
+    createUser ({state, commit}, {email, name, username, avatar = null}) {
+        return new Promise((resolve, reject) => {
+            const registeredAt = Math.floor(Date.now() / 1000)
+            const usernameLower = username.toLowerCase()
+            email = email.toLowerCase()
+            const user = {avatar, email, name, username, usernameLower, registeredAt}
+            const userId = firebase.database().ref('users').push().key
+            firebase.database().ref('users').child(userId).set(user)
+                .then(() => {
+                    commit('setItem', {resource: 'users', id: userId, item: user})
+                    resolve(state.users[userId])
+                })
+        })
+    },
+
     createThread ({state, commit, dispatch}, {text, title, forumId}) {
         return new Promise((resolve, reject) => {
             const threadId = firebase.database().ref('threads').push().key
