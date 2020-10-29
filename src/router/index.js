@@ -7,6 +7,7 @@ import ThreadEdit from '@/pages/PageThreadEdit'
 import Category from '@/pages/PageCategory';
 import Forum from '@/pages/PageForum';
 import Profile from '@/pages/PageProfile';
+import Register from '@/pages/PageRegister';
 import NotFound from '@/pages/PageNotFound';
 Vue.use(VueRouter)
 
@@ -52,6 +53,11 @@ const routes = [
     component: Profile,
     props: true
   }, 
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
   {
     path: '/me/edit',
     name: 'ProfileEdit',
