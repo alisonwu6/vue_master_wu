@@ -31,8 +31,4 @@ new Vue({
   router,
   store,   // store: store
   render: h => h(App),
-  beforeCreate () {
-    // in order to run code on every page
-    store.dispatch('fetchUser', {id: store.state.authId})
-  }
 }).$mount('#app')
