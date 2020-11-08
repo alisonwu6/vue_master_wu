@@ -102,6 +102,27 @@ export default {
         })
     },
 
+    initAuthentication ({dispatch, commit, state}) {
+        return new Promise((resolve, reject) => {
+            // unsubscribe observer if already listening
+            if (state.unsubscribeAuthObserver) {
+                state.unsubscribeAuthObserver()
+            }
+
+            const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+                console.log('👣 the user has changed')
+                if (user) {
+                    dispatch('fetchAuthUser')
+                        .then(dbUser => resolve(dbUser))
+                } else {
+                    resolve(null)
+                }
+            })
+            commit('setUnsubscribeAuthObserver', unsubscribe)
+        })
+    },
+    
+
     updateThread ({state, commit, dispatch}, {title, text, id}) {
         return new Promise((resolve, reject) => {
             const thread = state.threads[id]

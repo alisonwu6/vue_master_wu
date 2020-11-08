@@ -95,15 +95,19 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   console.log(`🚦 navigation to ${to.name} from ${from.name}`);
-  if (to.matched.some(route => route.meta.requiresAuth)) {
-    if (store.state.authId) {
-      next()
-    } else {
-        next({name: 'Home'})
-    }
-  } else {
-    next()
-  }
+  store.dispatch('initAuthentication')
+    .then(user => {
+      if (to.matched.some(route => route.meta.requiresAuth)) {
+        // protected route
+        if (user) {
+          next()
+        } else {
+          next({name: 'Home'})
+        }
+      } else {
+        next()
+      }
+    })
 })
 
 export default router
