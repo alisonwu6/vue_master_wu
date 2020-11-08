@@ -58,15 +58,19 @@
         methods: {
             register() {
                 this.$store.dispatch('registerUserWithEmailAndPassword', this.form)
-                    .then(() => this.$router.push('/'))
+                    .then(() => this.successRedirect())
             },
             registerWithGoogle () {
                 this.$store.dispatch('signInWithGoogle')
-                    .then(() => this.$router.push('/'))
+                    .then(() => this.successRedirect())
             }
         },
         created() {
             this.$emit('ready')
+        },
+        successRedirect () {
+            const redirectTo = this.$route.query.redirectTo || {name: 'Home'}
+            this.$router.push(redirectTo)
         }
     }
 </script>
