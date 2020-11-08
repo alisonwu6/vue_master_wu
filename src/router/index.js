@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '@/store';
 import VueRouter from 'vue-router'
 import Home from '@/pages/PageHome';
 import ThreadShow from '@/pages/PageThreadShow';
@@ -52,7 +53,14 @@ const routes = [
     path: '/me',
     name: 'Profile',
     component: Profile,
-    props: true
+    props: true,
+    beforeEnter (to, from, next) {
+      if (store.state.authId) {
+          next()
+      } else {
+          next({name: 'Home'})
+      }
+    }
   }, 
   {
     path: '/register',
@@ -63,6 +71,14 @@ const routes = [
     path: '/signin',
     name: 'SignIn',
     component: SignIn
+  },
+  {
+    path: '/logout',
+    name: 'SignOut',
+    beforeEnter(to, from, next) {
+      store.dispatch('signOut')
+          .then(() => next({name: 'Home'}))
+    }
   },
   {
     path: '/me/edit',
