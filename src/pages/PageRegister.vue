@@ -19,23 +19,25 @@
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input
-                        v-model="form.username"
+                        v-model.lazy="form.username"
                         @blur="$v.form.username.$touch()"
                         id="username" type="text" class="form-input">
                     <template v-if="$v.form.username.$error">
                         <span v-if="!$v.form.username.required" class="form-error">This field is required</span>
+                        <span v-if="!$v.form.username.unique" class="form-error">Sorry! This username is taken</span>
                     </template>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input
-                        v-model="form.email"
+                        v-model.lazy="form.email"
                         @blur="$v.form.email.$touch()"
                         id="email" class="form-input">
                     <template v-if="$v.form.email.$error">
                         <span v-if="!$v.form.email.required" class="form-error">This field is required</span>
                         <span v-else-if="!$v.form.email.email" class="form-error">This in not a valid email address</span>
+                        <span v-else-if="!$v.form.email.unique" class="form-error">Sorry! This email is taken</span>
                     </template>
                 </div>
 
@@ -47,7 +49,8 @@
                         id="password" type="password" class="form-input">
                     <template v-if="$v.form.password.$error">
                         <span v-if="!$v.form.password.required" class="form-error">This field is required</span>
-                        <span v-if="!$v.form.password.minLength" class="form-error">The password must be at least 6 characters long</span>
+                        <span v-if="!$v.form.password.minLength" class="form-error">The password must be at least 6
+                            characters long</span>
                     </template>
                 </div>
 
@@ -65,8 +68,8 @@
                 <div class="form-actions">
                     <button type="submit" class="btn-blue btn-block">Register</button>
                 </div>
-            </form>
 
+            </form>
             <div class="text-center push-top">
                 <button @click="registerWithGoogle" class="btn-red btn-xsmall"><i class="fa fa-google fa-btn"></i>Sign up with Google</button>
             </div>
@@ -75,7 +78,8 @@
 </template>
 
 <script>
-    import {required, email, minLength} from 'vuelidate/lib/validators'
+    import firebase from 'firebase'
+    import {required,email,minLength,helpers as vuelidateHelpers} from 'vuelidate/lib/validators'
     export default {
         data() {
             return {
@@ -88,17 +92,37 @@
                 }
             }
         },
+
         validations: {
             form: {
                 name: {
                     required
                 },
                 username: {
-                    required
+                    required,
+                    unique(value) {
+                        if (!vuelidateHelpers.req(value)) {
+                            return true
+                        }
+                        return new Promise((resolve, reject) => {
+                            firebase.database().ref('users').orderByChild('usernameLower').equalTo(value
+                                    .toLowerCase())
+                                .once('value', snapshot => resolve(!snapshot.exists()))
+                        })
+                    }
                 },
                 email: {
                     required,
-                    email
+                    email,
+                    unique(value) {
+                        if (!vuelidateHelpers.req(value)) {
+                            return true
+                        }
+                        return new Promise((resolve, reject) => {
+                            firebase.database().ref('users').orderByChild('email').equalTo(value.toLowerCase())
+                                .once('value', snapshot => resolve(!snapshot.exists()))
+                        })
+                    }
                 },
                 password: {
                     required,
@@ -106,7 +130,7 @@
                 },
                 avatar: {
                 
-                }   
+                }    
             }
         },
         methods: {
@@ -134,4 +158,5 @@
 </script>
 
 <style scoped>
+
 </style>
